@@ -1,44 +1,63 @@
 using System;
 using UnityEngine;
 
-public enum FillType { Solid = 0, LinearGradient = 1, RadialGradient = 2, Rotate = 3, Texture = 4 }
-public enum StrokePosition { Center = 0, Inner = 1, Outer = 2 }
-public enum EffectType { DropShadow = 0, InnerShadow = 1, OuterGlow = 2 }
-
-[Serializable]
-public struct FillData
+namespace WebUI
 {
-    public FillType type;
-    public Color colorA;
-    public Color colorB;
-    public Vector4 paramsX; // (Angle, Scale, OffsetX, OffsetY)
-}
+    public enum FillType
+    {
+        Solid = 0,
+        LinearGradient = 1,
+        RadialGradient = 2,
+        Rotate = 3,
+        Texture = 4
+    }
 
-[Serializable]
-public struct StrokeData
-{
-    public StrokePosition position;
-    public float width;
+    public enum StrokePosition
+    {
+        Center = 0,
+        Inner = 1,
+        Outer = 2
+    }
 
-    [Tooltip("描边着色类型。Solid 时只用 color，与旧数据完全兼容")]
-    public FillType type;
+    public enum EffectType
+    {
+        DropShadow = 0,
+        InnerShadow = 1,
+        OuterGlow = 2
+    }
 
-    [Tooltip("Solid 的颜色 / 渐变的起始色")]
-    public Color color;
+    [Serializable]
+    public struct FillData
+    {
+        public FillType type;
+        public Color colorA;
+        public Color colorB;
+        public Vector4 paramsX; // (Angle, Scale, OffsetX, OffsetY)
+    }
 
-    [Tooltip("渐变的结束色，Solid 时忽略")]
-    public Color colorB;
+    [Serializable]
+    public struct StrokeData
+    {
+        public StrokePosition position;
+        public float width;
 
-    [Tooltip("渐变参数，语义同 FillData.paramsX")]
-    public Vector4 paramsX;
-}
+        [Tooltip("描边着色类型。Solid 时只用 color，与旧数据完全兼容")]
+        public FillType type;
 
-[Serializable]
-public struct EffectData
-{
-    public EffectType type;
-    public Color color;
-    public Vector2 offset;
-    public float blurRadius;
-    public float spread;
+        [Tooltip("Solid 的颜色 / 渐变的起始色")] public Color color;
+
+        [Tooltip("渐变的结束色，Solid 时忽略")] public Color colorB;
+
+        [Tooltip("渐变参数，语义同 FillData.paramsX")] public Vector4 paramsX;
+    }
+
+    [Serializable]
+    public struct EffectData
+    {
+        public EffectType type;
+        public Color color;
+        public Vector2 offset;
+        public float blurRadius;
+        public float spread;
+    }
 }

@@ -7,12 +7,14 @@ Shader "UI/WebUIStencil"
         _RectSize ("Rect Size", Vector) = (100, 100, 0, 0)
         _CornerRadius ("Corner Radius", Float) = 10.0
         
-        _StencilComp ("Stencil Comparison", Float) = 8
-        _Stencil ("Stencil ID", Float) = 1
-        _StencilOp ("Stencil Operation", Float) = 2
-        _StencilWriteMask ("Stencil Write Mask", Float) = 255
-        _StencilReadMask ("Stencil Read Mask", Float) = 255
-        _ColorMask ("Color Mask", Float) = 15
+        // Legacy shader: stay neutral unless Unity's Mask explicitly supplies state.
+        // A fixed Ref 1 / Replace pass corrupts unrelated UI masks in the same canvas.
+        [HideInInspector] _StencilComp ("Stencil Comparison", Float) = 8
+        [HideInInspector] _Stencil ("Stencil ID", Float) = 0
+        [HideInInspector] _StencilOp ("Stencil Operation", Float) = 0
+        [HideInInspector] _StencilWriteMask ("Stencil Write Mask", Float) = 0
+        [HideInInspector] _StencilReadMask ("Stencil Read Mask", Float) = 255
+        [HideInInspector] _ColorMask ("Color Mask", Float) = 15
         _ClipRect ("Clip Rect", Vector) = (-32767, -32767, 32767, 32767)
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
     }

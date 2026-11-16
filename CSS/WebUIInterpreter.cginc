@@ -88,42 +88,6 @@ EffectData GetEffectData(int idx)
 }
 
 // ==========================================
-// 3. 动态计算顶点 Shader 外扩 Padding
-// ==========================================
-float CalculateMaxPadding(int strokeCount, int effectCount, float2 dir)
-{
-    float maxPad = 0.0;
-
-    // 1. 遍历 Stroke 外部轮廓扩充
-    for (int i = 0; i < strokeCount; i++)
-    {
-        StrokeData s = GetStrokeData(i);
-        float outerWidth = 0.0;
-        if (s.position == 2) // Outer
-            outerWidth = s.width;
-        else if (s.position == 0) // Center
-            outerWidth = s.width * 0.5;
-
-        maxPad = max(maxPad, outerWidth);
-    }
-
-    // 2. 遍历 Effect (Shadow) 动态方向投影扩充
-    for (int j = 0; j < effectCount; j++)
-    {
-        EffectData eff = GetEffectData(j);
-        if (eff.type == 0) // Drop Shadow
-        {
-            // 沿当前顶点象限方向计算 Offset 投影量，保证非对称阴影扩展完全精准
-            float offsetAlongDir = max(0.0, dot(eff.offset, dir));
-            float shadowExtent = offsetAlongDir + eff.blurRadius * 1.5 + eff.spread;
-            maxPad = max(maxPad, shadowExtent);
-        }
-    }
-
-    return maxPad + 2.0; // 额外提供 2 像素 AA 抗锯齿余量
-}
-
-// ==========================================
 // 4. SDF 基础计算
 // ==========================================
 float EvaluateSDF(float2 localPos, float2 halfSize, float cornerRadius)
